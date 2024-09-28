@@ -1,0 +1,54 @@
+version: '3'
+services:
+  eureka-server:
+    image: eureka-server-image
+    build:
+      context: ./registry-server
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761" # Eureka default port
+    networks:
+      - app-network
+    environment:
+      - EUREKA_CLIENT_REGISTER_WITH_EUREKA=false
+      - EUREKA_CLIENT_FETCH_REGISTRY=false
+
+  service-company:
+    image: service-demo-company-image
+    build:
+      context: ./company
+      dockerfile: Dockerfile
+    ports:
+      - "8100:8080"
+    networks:
+      - app-network
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+
+  service-b:
+    image: service-demo-employee-image
+    build:
+      context: ./employee
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8080"
+    networks:
+      - app-network
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+
+  api-gateway:
+    image: api-gateway-image
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080" # Gateway port
+    networks:
+      - app-network
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+
+networks:
+  app-network:
+    driver: bridge
