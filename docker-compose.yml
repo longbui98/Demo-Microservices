@@ -3,7 +3,7 @@ services:
   eureka-server:
     image: eureka-server-image
     build:
-      context: ./registry-server
+      context: ./registry-server/demo3
       dockerfile: Dockerfile
     ports:
       - "8761:8761" # Eureka default port
@@ -16,7 +16,7 @@ services:
   service-company:
     image: service-demo-company-image
     build:
-      context: ./company
+      context: ./company/demo2
       dockerfile: Dockerfile
     ports:
       - "8100:8080"
@@ -25,10 +25,10 @@ services:
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
 
-  service-b:
+  service-employee:
     image: service-demo-employee-image
     build:
-      context: ./employee
+      context: ./employee/demo
       dockerfile: Dockerfile
     ports:
       - "8090:8080"
@@ -40,7 +40,7 @@ services:
   api-gateway:
     image: api-gateway-image
     build:
-      context: ./api-gateway
+      context: ./api-gateway/demo4
       dockerfile: Dockerfile
     ports:
       - "8080:8080" # Gateway port
