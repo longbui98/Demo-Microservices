@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the built JAR file into the container
-COPY target/service-registry-0.0.1-SNAPSHOT.jar /app/service-registry-0.0.1-SNAPSHOT.jar
+COPY target/service-registry-0.0.1-SNAPSHOT.jar /app/target/service-registry-0.0.1-SNAPSHOT.jar
 
 # Expose the port
 EXPOSE 8761
